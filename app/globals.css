@@ -87,9 +87,9 @@ a { color: inherit; text-decoration: none; }
 .card-arrow:hover { transform:rotate(45deg); }
 .theme-dark .card-arrow { background:#fff; }
 .theme-switcher { position:fixed; right:18px; bottom:17px; display:flex; gap:7px; align-items:center; z-index:5; padding:4px 7px; border-radius:20px; color:#fff; background:#4e4e50; }
-.theme-switcher button { width:17px; height:17px; display:grid; place-items:center; padding:0; border:0; border-radius:50%; cursor:pointer; font-size:12px; }
-.setting-dot { background:white; color:#586679; }
-.theme-toggle { color:#fff; background:transparent; font-size:16px!important; }
+.theme-switcher button,.setting-dot { width:18px; height:18px; flex:0 0 18px; display:grid; place-items:center; padding:0; border:0; border-radius:50%; line-height:1; }
+.setting-dot { background:white; color:#586679; font-size:14px; }
+.theme-toggle { color:#fff; background:transparent; cursor:pointer; font-size:15px!important; }
 .services-section { position:relative; z-index:1; padding:clamp(0px, calc(1000px - 100svh), 200px) 0 150px; background: hsl(220, 10%, 6%); }
 .services-container { width:calc(100% - 48px); max-width:1320px; margin:0 auto; }
 .services-layout { display:grid; grid-template-columns:5fr 1fr 6fr; align-items:start; }
