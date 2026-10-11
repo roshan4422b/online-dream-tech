@@ -4,6 +4,7 @@ import PortfolioSection from "./portfolio";
 import ProcessSection from "./process";
 import { ContactCTA, SiteFooter } from "./cta-footer";
 import WhoWeAre from "./whoweare";
+import ServicesShowcase from "./services-showcase";
 
 export default function HomePage() {
   return (
@@ -11,6 +12,7 @@ export default function HomePage() {
       <main>
         <Hero />
         <WhoWeAre />
+        <ServicesShowcase />
         <PortfolioSection />
         <ProcessSection />
         <ContactCTA />
