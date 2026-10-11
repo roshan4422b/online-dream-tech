@@ -64,7 +64,12 @@ export default function ServicesShowcase() {
 
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (mediaQuery.matches) {
-      gsap.set(rows, { clearProps: "all" });
+      rows.forEach((row) => {
+        row.style.position = "relative";
+        row.style.top = "auto";
+        row.style.transform = "none";
+        row.style.opacity = "1";
+      });
       return;
     }
 
@@ -83,19 +88,20 @@ export default function ServicesShowcase() {
 
       gsap.set(rows, {
         position: "sticky",
-        top: "7rem",
-        yPercent: (index) => (index === 0 ? 0 : 100),
+        top: "6.5rem",
+        yPercent: (index) => (index === 0 ? 0 : 110),
         opacity: (index) => (index === 0 ? 1 : 0),
-        scale: (index) => Math.max(0.96, 1 - index * 0.02),
-        zIndex: (index) => rows.length - index,
+        scale: (index) => Math.max(0.97, 1 - index * 0.02),
+        zIndex: (index) => index + 1,
+        transformOrigin: "center center",
       });
 
       const sequence = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: () => `+=${rows.length * 520 + 180}`,
-          scrub: 1.2,
+          end: () => `+=${rows.length * 500 + 240}`,
+          scrub: 1,
           pin: true,
           pinSpacing: true,
           invalidateOnRefresh: true,
@@ -103,8 +109,8 @@ export default function ServicesShowcase() {
       });
 
       rows.forEach((row, index) => {
-        const start = index * 0.8;
-        const overlap = start + 0.55;
+        const start = index * 0.82;
+        const settle = start + 0.5;
 
         sequence
           .to(
@@ -112,9 +118,9 @@ export default function ServicesShowcase() {
             {
               yPercent: 0,
               opacity: 1,
-              scale: Math.max(0.96, 1 - index * 0.02),
+              scale: Math.max(0.97, 1 - index * 0.02),
               ease: "none",
-              duration: 0.8,
+              duration: 0.7,
             },
             start,
           )
@@ -123,11 +129,11 @@ export default function ServicesShowcase() {
             {
               yPercent: -8 - index * 2,
               opacity: 1,
-              scale: Math.max(0.96, 1 - index * 0.02),
+              scale: Math.max(0.97, 1 - index * 0.02),
               ease: "none",
-              duration: 0.45,
+              duration: 0.38,
             },
-            overlap,
+            settle,
           );
       });
     }, section);
