@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
 const links = [
   { label: "Home", href: "/home" },
-  { label: "Pages", href: "/aboutus" },
+  { label: "About", href: "/aboutus" },
   { label: "Services", href: "/services" },
-  { label: "Blog", href: "/#blog" },
-  { label: "Contact", href: "/contact" },
+  { label: "Contact Us", href: "/contact" },
 ];
+
+const whatsappHref = `https://wa.me/919125085040?text=${encodeURIComponent("hello i want a website")}`;
 
 function BrandMark() {
   return (
@@ -21,29 +21,30 @@ function BrandMark() {
 }
 
 export default function SiteHeader() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <header className="site-header entrance-header">
       <Link href="/home" className="wordmark" aria-label="Online Dream Tech home">
         <BrandMark />
         <span>Online Dream Tech</span>
       </Link>
-      <nav className={menuOpen ? "main-nav nav-open" : "main-nav"} aria-label="Main navigation">
-        {links.map(({ label, href }, index) => (
-          <Link href={href} key={label} onClick={() => setMenuOpen(false)}>
-            {label}{index > 0 && index < 4 && <span className="chevron" />}
+
+      <nav className="main-nav" aria-label="Main navigation">
+        {links.map(({ label, href }) => (
+          <Link href={href} key={label}>
+            {label}
           </Link>
         ))}
       </nav>
-      <button
-        className="menu-toggle"
-        aria-label={menuOpen ? "Close menu" : "Open menu"}
-        aria-expanded={menuOpen}
-        onClick={() => setMenuOpen(!menuOpen)}
+
+      <a
+        href={whatsappHref}
+        className="header-cta"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Contact on WhatsApp"
       >
-        <span /><span />
-      </button>
+        Get Started
+      </a>
     </header>
   );
 }
