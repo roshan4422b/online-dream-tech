@@ -57,7 +57,16 @@ export default function ServicesShowcase() {
 
   useEffect(() => {
     const section = sectionRef.current;
-    if (!section || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!section) return;
+
+    const rows = Array.from(section.querySelectorAll<HTMLElement>(`.${styles.row}`));
+    if (!rows.length) return;
+
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mediaQuery.matches) {
+      gsap.set(rows, { clearProps: "all" });
+      return;
+    }
 
     const context = gsap.context(() => {
       gsap.fromTo(
@@ -72,24 +81,54 @@ export default function ServicesShowcase() {
         },
       );
 
-      section.querySelectorAll<HTMLElement>(`.${styles.row}`).forEach((row) => {
-        const image = row.querySelector<HTMLElement>(`.${styles.image}`);
-        const media = row.querySelector<HTMLElement>(`.${styles.media}`);
-        const copy = row.querySelectorAll<HTMLElement>(`.${styles.number}, .${styles.copy}`);
-        if (!image || !media) return;
+      gsap.set(rows, {
+        position: "sticky",
+        top: "7rem",
+        yPercent: (index) => (index === 0 ? 0 : 100),
+        opacity: (index) => (index === 0 ? 1 : 0),
+        scale: (index) => Math.max(0.96, 1 - index * 0.02),
+        zIndex: (index) => rows.length - index,
+      });
 
-        const timeline = gsap.timeline({
-          scrollTrigger: {
-            trigger: row,
-            start: "top 82%",
-            end: "top 35%",
-            scrub: 0.8,
-          },
-        });
-        timeline
-          .fromTo(media, { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", ease: "none" }, 0)
-          .fromTo(image, { scale: 1.12 }, { scale: 1, ease: "none" }, 0)
-          .fromTo(copy, { y: 28, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.07, ease: "none" }, 0.12);
+      const sequence = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: () => `+=${rows.length * 520 + 180}`,
+          scrub: 1.2,
+          pin: true,
+          pinSpacing: true,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      rows.forEach((row, index) => {
+        const start = index * 0.8;
+        const overlap = start + 0.55;
+
+        sequence
+          .to(
+            row,
+            {
+              yPercent: 0,
+              opacity: 1,
+              scale: Math.max(0.96, 1 - index * 0.02),
+              ease: "none",
+              duration: 0.8,
+            },
+            start,
+          )
+          .to(
+            row,
+            {
+              yPercent: -8 - index * 2,
+              opacity: 1,
+              scale: Math.max(0.96, 1 - index * 0.02),
+              ease: "none",
+              duration: 0.45,
+            },
+            overlap,
+          );
       });
     }, section);
 
