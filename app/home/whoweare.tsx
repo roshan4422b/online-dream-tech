@@ -6,7 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const services = ["Social Media", "Content Writing", "Video Production"];
+const services = ["120+ Brands Served", "4.9/5 Client Rating", "24/7 Strategic Support"];
 
 function ServicesMark() {
   return (
@@ -81,7 +81,7 @@ export default function WhoWeAre() {
               </li>
             ))}
           </ul>
-          <span className="service-selection-status" aria-live="polite">Selected service: {services[selectedService]}</span>
+          <span className="service-selection-status" aria-live="polite">Selected trust badge: {services[selectedService]}</span>
         </div>
       </div>
     </section>
