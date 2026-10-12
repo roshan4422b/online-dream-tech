@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const services = ["120+ Brands Served", "4.9/5 Client Rating", "24/7 Strategic Support"];
 
 function ServicesMark() {
   return (
@@ -17,7 +15,6 @@ function ServicesMark() {
 }
 
 export default function WhoWeAre() {
-  const [selectedService, setSelectedService] = useState(0);
   const sectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -25,7 +22,7 @@ export default function WhoWeAre() {
     if (!section) return;
 
     const animatedItems = section.querySelectorAll(
-      ".services-media, .services-mark, .services-heading-visual, .services-description, .service-card",
+      ".services-media, .services-mark, .services-heading-visual, .services-description",
     );
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (mediaQuery.matches) {
@@ -47,8 +44,7 @@ export default function WhoWeAre() {
         .fromTo(".services-media", { clipPath: "inset(0 100% 0 0)", scale: 1.04 }, { clipPath: "inset(0 0% 0 0)", scale: 1, ease: "none" }, 0)
         .fromTo(".services-mark", { x: -18, opacity: 0 }, { x: 0, opacity: 1, ease: "none" }, 0.08)
         .fromTo(".services-heading-visual", { yPercent: 110, backgroundSize: "0% 100%, 100% 100%" }, { yPercent: 0, backgroundSize: "100% 100%, 100% 100%", ease: "none" }, 0.12)
-        .fromTo(".services-description", { y: 18, backgroundSize: "0% 100%, 100% 100%" }, { y: 0, backgroundSize: "100% 100%, 100% 100%", ease: "none" }, 0.3)
-        .fromTo(".service-card", { y: 24, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.08, ease: "none" }, 0.42);
+        .fromTo(".services-description", { y: 18, backgroundSize: "0% 100%, 100% 100%" }, { y: 0, backgroundSize: "100% 100%, 100% 100%", ease: "none" }, 0.3);
     }, section);
 
     return () => context.revert();
@@ -70,18 +66,6 @@ export default function WhoWeAre() {
             </h2>
           </div>
           <p className="services-description">Give lady of they such they sure it. Me contained explained my education. Vulgar as hearts by garret. Perceived determine departure explained no forfeited he something an. Contrasted dissimilar get joy you instrument out reasonably.</p>
-          <ul className="service-list">
-            {services.map((service, index) => (
-              <li key={service}>
-                <button className={`service-card${selectedService === index ? " active" : ""}`} type="button" aria-pressed={selectedService === index} onClick={() => setSelectedService(index)}>
-                  <span className="service-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-                  <svg className="service-arrow" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 31 31 8M13 8h18v18" /></svg>
-                  <span className="service-name">{service}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
-          <span className="service-selection-status" aria-live="polite">Selected trust badge: {services[selectedService]}</span>
         </div>
       </div>
     </section>

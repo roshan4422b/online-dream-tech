@@ -5,6 +5,7 @@ import ProcessSection from "./process";
 import { ContactCTA, SiteFooter } from "./cta-footer";
 import WhoWeAre from "./whoweare";
 import ServicesShowcase from "./services-showcase";
+import TechnologyOrbit from "./technology-orbit";
 
 export default function HomePage() {
   return (
@@ -12,6 +13,7 @@ export default function HomePage() {
       <main>
         <Hero />
         <WhoWeAre />
+        <TechnologyOrbit />
         <ServicesShowcase />
         <PortfolioSection />
         <ProcessSection />

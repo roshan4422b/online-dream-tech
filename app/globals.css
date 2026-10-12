@@ -498,7 +498,7 @@ a {
 .services-section {
   position: relative;
   z-index: 1;
-  padding: clamp(0px, calc(1000px - 100svh), 200px) 0 150px;
+  padding: clamp(48px, 8svh, 88px) 0 72px;
   background: hsl(220, 10%, 6%);
 }
 
@@ -1438,7 +1438,7 @@ a {
 
 @media (max-width: 991px) {
   .services-section {
-    padding-top: clamp(0px, calc(1000px - 100svh), 200px);
+    padding: clamp(40px, 7svh, 64px) 0 56px;
   }
 
   .services-container {
