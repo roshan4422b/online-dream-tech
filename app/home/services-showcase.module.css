@@ -4,7 +4,6 @@
   --showcase-line: var(--line, rgb(244 242 237 / 18%));
   position: relative;
   padding: clamp(88px, 10vw, 156px) 0 clamp(96px, 12vw, 176px);
-  overflow: hidden;
   background: var(--canvas, #10100f);
   color: var(--showcase-ink);
 }
@@ -77,7 +76,8 @@
 
 .row {
   position: sticky;
-  top: 6.5rem;
+  top: calc(6.5rem + var(--stack-offset, 0px));
+  z-index: var(--stack-order, 1);
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
   align-items: center;
@@ -86,14 +86,14 @@
   padding: clamp(34px, 5.4vw, 78px) 18px;
   border: 1px solid var(--showcase-line);
   border-radius: 28px;
-  background: var(--card);
+  background: var(--canvas, #10100f);
   box-shadow: 0 26px 60px rgb(0 0 0 / 18%);
   overflow: hidden;
   backdrop-filter: blur(6px);
 }
 
 .row + .row {
-  margin-top: -12px;
+  margin-top: 0;
 }
 
 .reverse .media {
@@ -216,7 +216,6 @@
 
   .row,
   .reverse {
-    top: 5.5rem;
     grid-template-columns: 1fr;
     gap: 26px;
     padding: 18px 14px;

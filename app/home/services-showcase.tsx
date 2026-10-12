@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import type { CSSProperties } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "./services-showcase.module.css";
@@ -59,19 +60,8 @@ export default function ServicesShowcase() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const rows = Array.from(section.querySelectorAll<HTMLElement>(`.${styles.row}`));
-    if (!rows.length) return;
-
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mediaQuery.matches) {
-      rows.forEach((row) => {
-        row.style.position = "relative";
-        row.style.top = "auto";
-        row.style.transform = "none";
-        row.style.opacity = "1";
-      });
-      return;
-    }
+    if (mediaQuery.matches) return;
 
     const context = gsap.context(() => {
       gsap.fromTo(
@@ -86,56 +76,6 @@ export default function ServicesShowcase() {
         },
       );
 
-      gsap.set(rows, {
-        position: "sticky",
-        top: "6.5rem",
-        yPercent: (index) => (index === 0 ? 0 : 110),
-        opacity: (index) => (index === 0 ? 1 : 0),
-        scale: (index) => Math.max(0.97, 1 - index * 0.02),
-        zIndex: (index) => index + 1,
-        transformOrigin: "center center",
-      });
-
-      const sequence = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: () => `+=${rows.length * 500 + 240}`,
-          scrub: 1,
-          pin: true,
-          pinSpacing: true,
-          invalidateOnRefresh: true,
-        },
-      });
-
-      rows.forEach((row, index) => {
-        const start = index * 0.82;
-        const settle = start + 0.5;
-
-        sequence
-          .to(
-            row,
-            {
-              yPercent: 0,
-              opacity: 1,
-              scale: Math.max(0.97, 1 - index * 0.02),
-              ease: "none",
-              duration: 0.7,
-            },
-            start,
-          )
-          .to(
-            row,
-            {
-              yPercent: -8 - index * 2,
-              opacity: 1,
-              scale: Math.max(0.97, 1 - index * 0.02),
-              ease: "none",
-              duration: 0.38,
-            },
-            settle,
-          );
-      });
     }, section);
 
     return () => context.revert();
@@ -157,7 +97,14 @@ export default function ServicesShowcase() {
 
         <div className={styles.list}>
           {services.map((service, index) => (
-            <article className={`${styles.row} ${index % 2 ? styles.reverse : ""}`} key={service.number}>
+            <article
+              className={`${styles.row} ${index % 2 ? styles.reverse : ""}`}
+              key={service.number}
+              style={{
+                "--stack-offset": `${index * 18}px`,
+                "--stack-order": index + 1,
+              } as CSSProperties}
+            >
               <div className={styles.media}>
                 <div
                   className={styles.image}

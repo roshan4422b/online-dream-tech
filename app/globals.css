@@ -39,8 +39,7 @@ a {
   --line: rgba(255, 255, 255, 0.3);
   --hero-ripple: rgba(190, 195, 205, 0.055);
   min-height: 100svh;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow-x: clip;
   position: relative;
   isolation: isolate;
   color: var(--ink);
