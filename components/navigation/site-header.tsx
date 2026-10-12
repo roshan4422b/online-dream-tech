@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 const links = [
   { label: "Home", href: "/home" },
@@ -21,6 +23,9 @@ function BrandMark() {
 }
 
 export default function SiteHeader() {
+  const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <header className="site-header entrance-header">
       <Link href="/home" className="wordmark" aria-label="Online Dream Tech home">
@@ -28,13 +33,25 @@ export default function SiteHeader() {
         <span>Online Dream Tech</span>
       </Link>
 
-      <nav className="main-nav" aria-label="Main navigation">
+      <nav id="main-navigation" className={`main-nav${menuOpen ? " nav-open" : ""}`} aria-label="Main navigation">
         {links.map(({ label, href }) => (
-          <Link href={href} key={label}>
+          <Link href={href} key={label} aria-current={pathname === href ? "page" : undefined} onClick={() => setMenuOpen(false)}>
             {label}
           </Link>
         ))}
       </nav>
+
+      <button
+        type="button"
+        className="menu-toggle"
+        aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+        aria-expanded={menuOpen}
+        aria-controls="main-navigation"
+        onClick={() => setMenuOpen((open) => !open)}
+      >
+        <span />
+        <span />
+      </button>
 
       <a
         href={whatsappHref}

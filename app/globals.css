@@ -134,21 +134,45 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 28px;
+  justify-self: center;
+  gap: clamp(20px, 2.4vw, 36px);
 }
 
 .main-nav a {
   color: var(--ink);
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 600;
+  white-space: nowrap;
   display: flex;
   align-items: center;
   gap: 7px;
   transition: opacity 0.2s ease;
 }
 
-.main-nav a:hover {
-  opacity: 0.6;
+.main-nav a:hover,
+.main-nav a[aria-current="page"] {
+  color: #c7f20b;
+  opacity: 1;
+}
+
+.menu-toggle {
+  display: none;
+  width: 42px;
+  height: 42px;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  height: 2px;
+  margin: 4px 0;
+  border-radius: 2px;
+  background: currentColor;
 }
 
 .header-cta {
@@ -204,10 +228,10 @@ a {
 }
 
 .hero h1 {
-  margin: 0 0 18px;
+  margin: 0 0 20px;
   font-size: clamp(92px, 8.8vw, 190px);
-  letter-spacing: -0.09em;
-  line-height: 0.7;
+  letter-spacing: -0.035em;
+  line-height: 0.82;
   font-weight: 700;
 }
 
@@ -216,8 +240,8 @@ a {
   white-space: nowrap;
 }
 
-.hero h1 span:nth-child(2) {
-  margin-left: 52px;
+.hero h1 .heading-mask-two {
+  margin-left: 100px;
 }
 
 .hero h1 .heading-mask {
@@ -230,6 +254,14 @@ a {
 .hero h1 .heading-line {
   display: block;
   will-change: transform, opacity;
+}
+
+.hero h1 .heading-line-one {
+  color: transparent;
+  background: linear-gradient(105deg, #06bed8 0%, #60d7b9 52%, #defa8e 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .hero h1 .heading-line-two {
@@ -273,7 +305,7 @@ a {
 .intro-body::before {
   content: "";
   position: absolute;
-  top: 0;
+  top: -36px;
   left: 0;
   width: 100%;
   height: 1px;
@@ -328,28 +360,56 @@ a {
   min-height: 580px;
 }
 
-.ribbon-mark {
+.route-hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  place-items: center;
+  width: 100%;
+  min-height: calc(100svh - 84px);
+  margin: 0;
+  padding: 48px 6%;
+}
+
+.route-hero h1 {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(64px, 11vw, 168px);
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+}
+
+.route-hero h1 .heading-mask {
+  overflow: visible;
+}
+
+.welcome-animation-control {
   position: absolute;
   width: clamp(360px, 31vw, 520px);
-  height: auto;
-  top: 34px;
+  aspect-ratio: 1;
+  top: -70px;
   right: 18px;
+}
+
+.welcome-animation {
+  display: block;
+  width: 100%;
+  height: 100%;
   overflow: visible;
   filter: drop-shadow(0 10px 18px rgba(133, 207, 255, 0.18));
-  transform: rotate(-6deg);
+  pointer-events: none;
 }
 
 .project-card {
   position: absolute;
   right: 10px;
-  bottom: 12px;
+  bottom: 80px;
   width: min(100%, 320px);
   min-height: 190px;
   padding: 42px 22px 32px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  border-radius: 18px 18px 0 0;
+  border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.18);
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(3px);
@@ -1298,9 +1358,32 @@ a {
     width: 88%;
   }
 
+  .main-nav {
+    gap: 18px;
+  }
+
+  .main-nav a {
+    font-size: 14px;
+  }
+
+  .header-cta {
+    padding: 0.75rem 1rem;
+  }
+
   .hero {
     grid-template-columns: 60% 40%;
     padding-top: 40px;
+  }
+
+  .route-hero {
+    width: 100%;
+    grid-template-columns: 1fr;
+    place-items: center;
+    padding: 40px 6%;
+  }
+
+  .route-hero h1 {
+    font-size: clamp(64px, 11vw, 120px);
   }
 
   .hero h1 {
@@ -1327,7 +1410,7 @@ a {
     font-size: 12px;
   }
 
-  .ribbon-mark {
+  .welcome-animation-control {
     right: 0;
     width: clamp(180px, 26vw, 240px);
   }
@@ -1420,6 +1503,7 @@ a {
     border: 1px solid var(--line);
     border-radius: 10px;
     box-shadow: 0 14px 35px #0002;
+    z-index: 10;
   }
 
   .main-nav.nav-open {
@@ -1428,6 +1512,27 @@ a {
 
   .main-nav a {
     font-size: 13px;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .header-cta {
+    display: none;
+  }
+
+  .route-hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    margin: 0;
+    min-height: calc(100svh - 66px);
+    padding: 40px 6%;
+  }
+
+  .route-hero h1 {
+    font-size: clamp(52px, 13vw, 92px);
   }
 
   .hero {
@@ -1441,12 +1546,12 @@ a {
   .hero h1 {
     margin-bottom: 26px;
     font-size: clamp(52px, 13vw, 76px);
-    letter-spacing: -0.04em;
+    letter-spacing: -0.015em;
     line-height: 0.9;
   }
 
-  .hero h1 span:nth-child(2) {
-    margin-left: 0;
+  .hero h1 .heading-mask-two {
+    margin-left: 34px;
   }
 
   .intro-row {
@@ -1478,15 +1583,15 @@ a {
     margin-top: 14px;
   }
 
-  .ribbon-mark {
-    top: -4px;
+  .welcome-animation-control {
+    top: 2px;
     left: auto;
     right: 1%;
     width: clamp(155px, 51vw, 220px);
   }
 
   .project-card {
-    bottom: 14px;
+    bottom: 44px;
     left: 0;
     width: 67%;
     min-height: 150px;
@@ -1599,7 +1704,7 @@ a {
   .entrance-header .wordmark,
   .entrance-header .main-nav a,
   .entrance-header .menu-toggle,
-  .entrance-art .ribbon-mark,
+  .entrance-art .welcome-animation,
   .entrance-card {
     opacity: 1;
     transform: none;
